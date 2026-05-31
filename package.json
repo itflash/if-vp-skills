@@ -1,0 +1,10 @@
+{
+  "name": "video-project-manager",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Video project management skills for Claude Code and Codex",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "deploy": "node scripts/deploy.mjs"
+  }
+}
