@@ -5,7 +5,10 @@ description: Create a new video project with auto-incrementing ID
 
 # /if-vp-new — 新建视频项目
 
-在仓库中创建新的视频项目，自动分配编号，设为当前项目。
+在仓库中创建新的视频项目，设为当前项目。
+
+- `if-vp-new` — 自动分配编号（001, 002, …）
+- `if-vp-new <name>` — 使用指定目录名
 
 ## 执行步骤
 
@@ -14,15 +17,19 @@ description: Create a new video project with auto-incrementing ID
 test -d _templates || { echo "错误：_templates/ 不存在。请先运行 /if-vp-init。"; exit 1; }
 ```
 
-2. 计算下一个项目编号：
+2. 确定项目目录名：
 ```bash
-NEXT=$(find . -maxdepth 1 -type d -name '[0-9][0-9][0-9]' 2>/dev/null | sed 's|^./||' | sort -n | tail -1 | sed 's/^0*//')
-if [ -z "$NEXT" ]; then
-  NEXT=1
+if [ -n "$1" ]; then
+  PROJECT="$1"
 else
-  NEXT=$((NEXT + 1))
+  NEXT=$(find . -maxdepth 1 -type d -name '[0-9][0-9][0-9]' 2>/dev/null | sed 's|^./||' | sort -n | tail -1 | sed 's/^0*//')
+  if [ -z "$NEXT" ]; then
+    NEXT=1
+  else
+    NEXT=$((NEXT + 1))
+  fi
+  PROJECT=$(printf "%03d" $NEXT)
 fi
-PROJECT=$(printf "%03d" $NEXT)
 echo "创建项目：$PROJECT"
 ```
 
